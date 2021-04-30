@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="number" id="a" />+
+    <br />
+    <input type="number" id="b" />+
+    <br />
+    <input type="number" id="c" />+
+    <br />
+    <input type="number" id="d" />+
+    <br />
+    <input type="number" id="e" />+
+    <br />
+    <input type="number" id="f" />+
+    <br />
+    <input type="number" id="g" />+
+    <br />
+    <input type="number" id="h" />+
+    <br />
+    <input type="number" id="i" />+
+    <br />
+    <!-- 觸發點，按了之後會觸發事件處理器doAjax()-->
+    <!-- doAjax()，發送一個request給20200821-05-plus-api.php -->
+    <!-- 送出的資料，可見於 F12 > Network > Headers > Query String Parameters -->
+    <!-- 回傳的資料，可見於 F12 > Network > Preview
+     -->
+    <button onclick="doAjax()">=</button>
+    <span id="result"></span>
+
+    <script>
+      const qS = (id) => document.querySelector(id);
+
+      function doAjax() {
+        const a = qS('#a');
+        console.log('a', a);
+        const a1 = a.value;
+        console.log('a1', a1);
+
+        const b = qS('#b');
+        const b1 = b.value;
+
+        // const c = qS('#c');
+        // const d = qS('#d');
+        // const e = qS('#e');
+        // const f = qS('#f');
+        // const g = qS('#g');
+        // const h = qS('#h');
+        // const i = qS('#i');
+        // 用戶輸入的資料送給php
+        // 現在在相同路徑，故可以直接用檔名
+        // 資料透過 query string 送
+        fetch(`20200821-05-plus-api.php?a=${a1}&b=${b1}`)
+          // r，即是server回應(response)的promise物件
+          // r.json()，即是將其解析成json格式
+          .then((r) => r.json())
+
+          .then((obj) => {
+            // 送回來的資料obj.answer;
+            // 塞進DOM element，#result
+            document.querySelector('#result').innerHTML = obj.answer;
+          });
+      }
+    </script>
+  </body>
+</html>
