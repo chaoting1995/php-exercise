@@ -3,7 +3,7 @@ session_start(); //啟用session
 
 //用陣列模擬儲存在DB裡的帳密資料
 $accounts = [
-    "cha" => [
+    "chao" => [
         "pw" => "12345",
         "nickname" => "小兆"
     ],
@@ -21,7 +21,7 @@ if (isset($_POST['account'])) {
         $a = $accounts[$_POST['account']];
         // 3.驗證密碼:
         if ($_POST['password'] == $a['pw']) {
-            //3.當通過驗證，建立一個session資料(存入(帳號、暱稱))
+            //3.當通過驗證，在Cookie設定Session ID(存入(帳號、暱稱))
             $_SESSION['user'] = [
                 'account' => $_POST['account'],
                 'nickname' => $a['nickname']
@@ -29,12 +29,10 @@ if (isset($_POST['account'])) {
         }
     }
 }
+//沒登入時，秀表單
+//有登入時，秀訊息
+
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,35 +46,43 @@ if (isset($_POST['account'])) {
 </head>
 
 <body>
-
     <div class="container">
-        <div class="row">
-            <div class="col">
-
-                <div class="alert alert-info" role="alert">
-
+        <!-- 有登入時，秀訊息 -->
+        <?php if (isset($_SESSION["user"])) : ?>
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-info" role="alert">
+                        <?= $_SESSION["user"]["nickname"] ?> 您好<br>
+                        <a href="./20200825-06-logout.php">登出</a>
+                    </div>
                 </div>
+            </div>
+        <?php else : ?>
+            <!-- 沒登入時，秀表單 -->
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form method="post">
+                        <!-- account -->
+                        <div class="form-group">
+                            <label for="account">Email address</label>
 
+                            <input type="text" class="form-control" id="account" name="account">
+                        </div>
+                        <br>
+                        <!-- password -->
+                        <div class="form-group">
+                            <label for="password">Password</label>
+
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        <br>
+                        <!-- button -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <form method="post">
-                    <!-- account -->
-                    <div class="form-group">
-                        <label for="account">Email address</label>
-                        <input type="text" class="form-control" id="account" name="account">
-                    </div>
-                    <!-- password -->
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                    </div>
-                    <!-- button -->
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
+        <?php endif; ?>
     </div>
 
 
