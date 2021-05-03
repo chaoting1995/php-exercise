@@ -22,3 +22,6 @@ $pdo_options = [
 
 //建立用PDO連線的物件，並放入指定的相關參數
 $pdo = new PDO($dsn, $db_user, $db_pass, $pdo_options);
+
+//設定常數，每次都從「網站根目錄」開始抓
+define('WEB_ROOT', 'php-exercise');
